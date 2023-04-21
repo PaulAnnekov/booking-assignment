@@ -1,0 +1,214 @@
+# TODO: Incomplete, but enough to understand how to make requests
+openapi: 3.0.3
+info:
+  title: Booking API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/
+paths:
+  /guests:
+    get:
+      summary: Returns a list of guests.
+      responses:
+        '200':
+          description: List of guests.
+    post:
+      summary: Adds a new guest.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+            examples:
+              default:
+                value:
+                  name: Pavlo
+                  phone: +11234567890
+      responses:
+        '200':
+          description: Success status.
+  /guests/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Guest ID.
+      schema:
+        type: string
+    get:
+      summary: Returns a single guest by ID.
+      responses:
+        '200':
+          description: A single guest.
+    delete:
+      summary: Removes a single guest by ID.
+      responses:
+        '200':
+          description: Success status.
+  /properties:
+    get:
+      summary: Returns a list of properties.
+      responses:
+        '200':
+          description: List of properties.
+    post:
+      summary: Adds a new property.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              default:
+                value:
+                  name: Gulliver
+      responses:
+        '200':
+          description: Success status.
+  /properties/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Property ID.
+      schema:
+        type: string
+    get:
+      summary: Returns a single property by ID.
+      responses:
+        '200':
+          description: A single property.
+    delete:
+      summary: Removes a single property by ID.
+      responses:
+        '200':
+          description: Success status.
+  /messages:
+    get:
+      summary: Returns a list of messages.
+      parameters:
+        - name: guestId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of messages.
+    post:
+      summary: Adds a new message.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  enum:
+                    - guest
+                    - property
+                guestId:
+                  type: string
+                propertyId:
+                  type: string
+                text:
+                  type: string
+            examples:
+              default:
+                value:
+                  from: guest
+                  guestId: 6442d41bb5f9748f7bb7ea33
+                  propertyId: 6442d3f3b5f9748f7bb7ea30
+                  text: Hello world!
+      responses:
+        '200':
+          description: Success status.
+  /messages/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Message ID.
+      schema:
+        type: string
+    get:
+      summary: Returns a single message by ID.
+      responses:
+        '200':
+          description: A single message.
+    delete:
+      summary: Removes a single message by ID.
+      responses:
+        '200':
+          description: Success status.
+  /reservations:
+    get:
+      summary: Returns a list of reservations.
+      parameters:
+        - name: guestId
+          in: query
+          schema:
+            type: string
+        - name: propertyId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of reservations.
+    post:
+      summary: Adds a new reservation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                guestId:
+                  type: string
+                propertyId:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+            examples:
+              default:
+                value:
+                  guestId: 6442d41bb5f9748f7bb7ea33
+                  propertyId: 6442d3f3b5f9748f7bb7ea30
+                  startDate: 2023-04-12
+                  endDate: 2023-04-13
+      responses:
+        '200':
+          description: Success status.
+  /reservations/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Reservation ID.
+      schema:
+        type: string
+    get:
+      summary: Returns a single reservation by ID.
+      responses:
+        '200':
+          description: A single reservation.
+    delete:
+      summary: Removes a single reservation by ID.
+      responses:
+        '200':
+          description: Success reservation.

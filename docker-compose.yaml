@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: 'Dockerfile.development'
+    restart: always
+    ports:
+      - "3000:3000"
+    command: "npm run dev"
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/booking
+    depends_on:
+      - mongo
+    volumes:
+      - ./src:/usr/app/src:cached
+    networks:
+      - backend
+  mongo:
+    image: mongo:4.4.4
+    restart: always
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
